@@ -1,70 +1,46 @@
 var express = require("express");
 var router = express.Router();
 
-// This is your data from API
-const linkData = [
-  "param1",
-  "param2",
-  "param3",
-  "param4",
-  "param5",
-  "param6",
-  "param7",
-  "param8",
-];
-
-// This is your logic to generate url for a link
-function generateURL(filter = "", filters = []) {
-  const baseURL = "/";
-  let modifiedFilter = filter;
-  let modifiedFilters = filters;
-  if (filters.length && filters.indexOf(filter) !== -1) {
-    modifiedFilters = filters.filter((item) => item !== filter);
-  }
-  if (filters.filter((item) => item === filter).length) {
-    modifiedFilter = "";
-  }
-  const url = `${baseURL}?params=${modifiedFilter}${
-    modifiedFilters.length && modifiedFilter ? "," : ""
-  }${modifiedFilters.join(",")}`;
-  return url === baseURL + "?params=" ? baseURL : url;
+const pageData = {
+  totalRecords: 100,
+  pageSize: 10,
 }
 
-// This is to check if the link is selected or not
-function isSelected(filter = "", filters = []) {
-  if (filters.filter((item) => item === filter).length) {
-    return "selected";
-  }
-  return "not-selected";
+const getCurrentPageNumber = (req) => {
+  const page = (req.params && req.params.pageNo) || 1;
+  return page;
 }
 
-// This is generating markup
-function generateMarkup(req) {
-  const filters =
-    req.query && req.query.params ? req.query.params.split(",") : [];
-  let bodyMarkup = "<ul>";
-  for (let i = 0; i < linkData.length; i++) {
-    const currentParam = linkData[i];
-    const isLinkSelected = isSelected(currentParam, filters);
-    const generatedURL = generateURL(currentParam, filters);
-    bodyMarkup += `
-        <li><a class="${isLinkSelected}" href="${generatedURL}">LINK${
-      i + 1
-    } </a>  
-          <span style="background:yellow; text-transform: uppercase; font-size: 10px;">${isLinkSelected}</span><br>
-          <span style="font-style: italic; font-size: 10px;">${generatedURL}</span>  
-        </li>
-    `;
-  }
-  bodyMarkup += "</ul>";
-  return bodyMarkup;
+const generateDummyContent = (current) => {
+  return ''
 }
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  const generatedMarkup = generateMarkup(req);
+const generatePagination = (req, current) => {
+  const currentPage = parseInt(current);
+  const baseURL = '/pagination';
+  const numberOfPages = Math.round(pageData.totalRecords / pageData.pageSize);
+  let html = '<div class="pagination">'
+  html+= generateDummyContent(currentPage);
+  const previousHtml = (currentPage - 1);
+  const previousClass = (previousHtml <= 0) ? 'hide' : 'show';
+  html+= `<a href="${baseURL}/${previousHtml}" class="prev ${previousClass}">Previous</a>`
+  for(let i=1; i<=numberOfPages; i++ ) {
+    const selectedClass = (i == currentPage) ? 'selected' : 'not-selected'
+    html += `<a href="${baseURL}/${i}" class="page-link ${selectedClass}">${i}</a>`
+  }
+  const nextHtml = (currentPage + 1);
+  const nextClass = (currentPage >= numberOfPages) ? 'hide' : 'show';
+  html+= `<a href="${baseURL}/${nextHtml}" class="next ${nextClass}">Next</a>`
+  html += '</div>'
+  return html;
+}
+
+/* GET pagination page. */
+router.get("/:pageNo", function (req, res, next) {
+  const pageNumber = getCurrentPageNumber(req);
+  const generatedMarkup = generatePagination(req, pageNumber);
   res.render("index", {
-    title: "Dynamic Linking!",
+    title: `Pagination - Page ${pageNumber}`,
     markup: generatedMarkup,
   });
 });
