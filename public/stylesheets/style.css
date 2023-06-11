@@ -1,0 +1,51 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  }
+  
+  .heading {
+    font-size: 40px;
+    color: red;
+    font-weight: bold;
+  }
+  
+  a {
+    color: #00b7ff;
+  }
+  
+  .nav {
+    font-size: 20px;
+    color: blue;
+  }
+  .nav:hover {
+    font-size: 20px;
+    color: black;
+  }
+  
+  .nav + .nav {
+    margin-left: 30px;
+  }
+  
+  td,
+  th {
+    padding: 20px;
+  }
+  
+  thead {
+    background-color: #333;
+    color: white;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 2%;
+  }
+  
+  tbody td {
+    background-color: #36c;
+    color: #fff;
+    text-align: left;
+  }
+  
+  tbody td:nth-child(even) {
+    background-color: #25c;
+  }
+  
