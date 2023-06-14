@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    title reCaptcha v2 invisible 2 
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://www.google.com/recaptcha/api.js?render=explicit' async='' defer='')
+    script(type='text/javascript').
+      window.modalCaptchaWidgetResponse = null;
+      const setResponse = function(response) {
+        window.modalCaptchaWidgetResponse = response;
+      };
+      const validateFormSubmit = function() {
+        if(!window.modalCaptchaWidgetResponse) {
+            return false;
+        }
+        return true;
+      }
+      const closeModal = function() {
+        document.getElementById('myModal').classList.add('hide');
+        document.getElementById('myModalBackdrop').classList.add('hide');
+      }
+      const openModal = function(val) {
+        const captchaElement = "renderRecaptcha";
+        const subElementCount = document.getElementById(captchaElement).childElementCount;
+
+        if(subElementCount === 0) {
+            window.modalCaptchaWidgetId = grecaptcha.render(captchaElement, {
+            "sitekey": "<YOUR SITE KEY>",
+            'callback' : setResponse,
+            //- 'theme': 'dark'
+        });
+        } else {
+            grecaptcha.reset(window.modalCaptchaWidgetId);
+        }
+        document.getElementById('listId').value = val;
+        document.getElementById('myModal').classList.remove('hide');
+        document.getElementById('myModalBackdrop').classList.remove('hide');
+      };
+  body
+    table
+      tbody
+        tr
+          td
+            | list item 1 
+            button(onclick='openModal(1);') Open Form
+        tr
+          td
+            | list item 2 
+            button(onclick='openModal(2);') Open Form
+        tr
+          td
+            | list item 3 
+            button(onclick='openModal(3);') Open Form
+
+    #myModalBackdrop.hide
+    #myModal.hide
+      form(action='/recaptcha' method='post' onsubmit='return validateFormSubmit();')
+        input#listId(type='text' name='listId')
+        input#firstName(type='text' name='firstName')
+        #renderRecaptcha
+        button(type='submit') Submit Form
+        button(type='button' onclick='closeModal();') Close modal
+    !{markup}

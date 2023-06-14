@@ -5,6 +5,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var paginationRouter = require("./routes/pagination");
+var recaptchRouter = require("./routes/recaptcha");
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/pagination", paginationRouter);
+app.use("/recaptcha", recaptchRouter);
 
 var listener = app.listen(8080, function () {
   console.log("Listening on port " + listener.address().port);
