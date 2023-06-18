@@ -6,7 +6,12 @@ html
   body
     a.nav(href="/") Dynamic Linking
     a.nav(href="/pagination/1") Pagination
+    a.nav(href="/recaptcha") Recaptcha
+    a.nav(href="/pagereference/page1") Anchor State
+    a.nav(href="/requestinfo") Request Info
     br
     br
     br
     block content
+    script(type='text/javascript', src='/js/script.js')
+    script(type='text/javascript', src='/js/client-requestInfo.js')

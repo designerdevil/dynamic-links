@@ -101,3 +101,87 @@ body {
   .hide {
     display: none;
   }
+
+  /* Selected filters on page load */
+  .filter-item.active {
+    color: red;
+  }
+  
+  /********************************/
+  /* Request Information CSS */
+  /********************************/
+  .request-info-modal,
+  .request-info-modal-backdrop {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 1;
+  }
+  .request-info-modal {
+    width: 400px;
+    height: auto;
+    max-height: 70vh;
+    overflow: auto;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    z-index: 2;
+  }
+  .show.request-info-modal,
+  .show.request-info-modal-backdrop {
+    display: block;
+  }
+  .request-info-modal .title {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+  }
+  .request-info-modal .dropdown {
+    display: flex;
+    padding: 10px 0;
+  }
+  .request-info-modal label {
+    width: 150px;
+  }
+  .request-info-modal textarea {
+    width: calc(100% - 10px);
+  }
+  .request-info-modal .captcha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .request-info-modal .error {
+    border: 1px solid red;
+  }
+  
+  /* message css */
+  .request-info-message {
+    position: fixed;
+    right: 0;
+    top: 30%;
+    z-index: 3;
+    padding: 10px 30px;
+    background: #ccc;
+    display: none;
+  }
+  
+  .request-info-message.show {
+    display: block;
+  }
+  
+  .request-info-message.success {
+    background: #adff2f;
+  }
+  
+  .request-info-message.error {
+    background: #ff4848;
+  }
+  
